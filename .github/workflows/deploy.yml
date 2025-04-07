@@ -1,0 +1,27 @@
+name: Deploy to Vercel
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+        
+      - name: Deploy to Vercel
+        run: |
+          vercel --token ${VERCEL_TOKEN} --prod --confirm --name mmKiller
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
