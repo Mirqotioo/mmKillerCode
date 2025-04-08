@@ -265,7 +265,7 @@ def download_montage(job_id):
     }), 200
 
 if __name__ == '__main__':
-  #  app.run(host='0.0.0.0', port=5000, debug=True)
+    pass  # necessario per evitare errori di indentazione
 
 from http.server import BaseHTTPRequestHandler
 
@@ -289,4 +289,3 @@ class handler(BaseHTTPRequestHandler):
             content_type=self.headers["Content-Type"]
         )
         self.wfile.write(response.data)
-
