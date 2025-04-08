@@ -265,4 +265,28 @@ def download_montage(job_id):
     }), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+  #  app.run(host='0.0.0.0', port=5000, debug=True)
+
+from http.server import BaseHTTPRequestHandler
+
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        response = app.test_client().get(self.path)
+        self.wfile.write(response.data)
+
+    def do_POST(self):
+        content_length = int(self.headers["Content-Length"])
+        post_data = self.rfile.read(content_length)
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        response = app.test_client().post(
+            self.path,
+            data=post_data,
+            content_type=self.headers["Content-Type"]
+        )
+        self.wfile.write(response.data)
+
