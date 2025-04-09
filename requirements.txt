@@ -1,19 +1,29 @@
-# Backend dependencies
-Flask==2.3.3
-Flask-Cors==4.0.0
-python-dotenv==1.0.0
-Werkzeug==2.3.7
-pydantic==2.4.2
-numpy==1.26.0
-opencv-python==4.8.1.78
-moviepy==1.0.3
-scenedetect
-pillow==10.0.1
-transformers==4.33.2
-torch==2.0.1
-torchvision==0.15.2
-ftfy==6.1.1
-regex==2023.8.8
-tqdm==4.66.1
-clip @ git+https://github.com/openai/CLIP.git
-gunicorn
+# Backend dependencies - Consolidated List
+
+# Core Flask & Web Server
+Flask==2.2.5           # Presa da backend_render (verifica se compatibile col tuo codice)
+Flask-Cors==3.0.10     # Presa da backend_render (verifica)
+Werkzeug==2.2.3        # Presa da backend_render (verifica)
+gunicorn               # Necessario per Render Start Command
+
+# AI & Processing Libraries
+# Usiamo i link specifici per CPU da backend_render - buoni per Render
+https://download.pytorch.org/whl/cpu/torch-2.2.2%2Bcpu-cp311-cp311-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torchvision-0.17.2%2Bcpu-cp311-cp311-linux_x86_64.whl
+transformers==4.36.2     # Presa da backend_render (più recente)
+git+https://github.com/openai/CLIP.git # Presa da entrambi
+
+# Video/Image Processing
+moviepy==1.0.3         # Uguale in entrambi
+opencv-python==4.6.0.66 # Presa da backend_render (verifica compatibilità)
+scenedetect==0.6.1       # Versione pinnata da backend_render
+Pillow==10.0.1         # Presa da root (verifica se necessaria) - OpenCV spesso basta
+
+# Utilities & Data Handling
+numpy==1.23.5          # Presa da backend_render (verifica compatibilità)
+requests==2.28.2         # Aggiunta da backend_render (verifica se usata!)
+python-dotenv==1.0.0   # Presa da root (utile per variabili locali .env)
+pydantic==2.4.2        # Presa da root (verifica se usata!)
+ftfy==6.1.1            # Presa da root (spesso usata con CLIP, prob. necessaria)
+regex==2023.8.8        # Presa da root (spesso usata con CLIP, prob. necessaria)
+tqdm==4.66.1           # Presa da root (utile per progress bar)
