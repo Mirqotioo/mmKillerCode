@@ -1,0 +1,26 @@
+.git
+.vscode
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+# Aggiungi qui eventuali altri file/cartelle da ignorare globalmente
+
+# Ignora le cartelle che hanno il loro contesto Docker
+# frontend/
+# backend_render/ # Non possiamo ignorarla tutta se copiamo da essa
+
+# Ignora le dipendenze frontend (verranno gestite nel container frontend)
+frontend/node_modules
+frontend/.next
+
+# Ignora le dipendenze backend (se usi venv locale)
+backend_render/venv
+backend_render/__pycache__
+
+# Ignora file di output/upload se non vuoi copiarli nell'immagine
+# (ma li montiamo come volumi, quindi è ok non ignorarli qui)
+# uploads/
+# output/

@@ -1,0 +1,62 @@
+version: '3.8' # Specifica la versione di Docker Compose
+
+services:
+  # Servizio per il Backend Python/Flask/Gunicorn
+  backend:
+    build:
+      context: . # Il contesto è la root del progetto
+      dockerfile: ./backend_render/Dockerfile # Specifica il percorso del Dockerfile backend
+    ports:
+      # Mappa la porta 5001 del container alla porta 5001 della macchina host
+      - "5001:5001"
+    volumes:
+      # Monta le cartelle locali 'uploads' e 'output' dentro il container
+      # Così i file caricati e generati sono persistenti e accessibili dall'host
+      # ASSICURATI CHE I PERCORSI INTERNI (/app/uploads, /app/output) SIANO USATI DAL TUO CODICE FLASK
+      - ./uploads:/app/uploads
+      - ./output:/app/output
+      # Se il tuo codice Flask si aspetta che siano dentro backend_render:
+      # - ./backend_render/uploads:/app/uploads
+      # - ./backend_render/output:/app/output
+      #  ===> DEVI VERIFICARE I PERCORSI USATI IN main.py <===
+    environment:
+      # Puoi definire qui variabili d'ambiente necessarie al backend
+      # Esempio: se vuoi che Flask/Gunicorn usino una porta diversa da quella hardcoded
+      # PORT: 5001
+      PYTHONUNBUFFERED: 1 # Forza output Python non bufferizzato per vedere i log subito
+      # ===> Aggiungi qui eventuali altre variabili d'ambiente per il backend <===
+      # Ad esempio, se il codice Flask deve sapere dove sono uploads/output:
+      # UPLOAD_FOLDER: /app/uploads
+      # OUTPUT_FOLDER: /app/output
+    deploy:
+      # Richiesta di accesso alla GPU Nvidia (richiede Nvidia Container Toolkit sull'host)
+      resources:
+        reservations:
+          devices:
+            # Prova prima con 'count: 1'. Se hai più GPU o dà problemi, prova 'count: all'
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu] # Richiede capacità GPU
+
+  # Servizio per il Frontend Next.js
+  frontend:
+    build:
+      context: ./frontend # Il contesto è la sottocartella frontend
+      dockerfile: Dockerfile # Cerca il Dockerfile nella cartella frontend
+    ports:
+      # Mappa la porta 3000 del container alla porta 3000 della macchina host
+      - "3000:3000"
+    environment:
+      # Fornisce al frontend l'URL per raggiungere il backend
+      # Usa il nome del servizio 'backend' definito sopra e la sua porta interna (5001)
+      NEXT_PUBLIC_API_URL: http://backend:5001
+      # ===> Aggiungi qui eventuali altre variabili d'ambiente per il frontend <===
+    depends_on:
+      # Dice a Docker Compose di avviare il backend prima del frontend
+      # Non garantisce che il backend sia *pronto*, solo che il container sia avviato
+      - backend
+
+volumes:
+  # Definisci i volumi se vuoi gestirli tramite Docker (opzionale se usi bind mount come sopra)
+  uploads:
+  output:

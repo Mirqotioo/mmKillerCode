@@ -1,29 +1,33 @@
 # Backend dependencies - Consolidated List
 
 # Core Flask & Web Server
-Flask==2.2.5           # Presa da backend_render (verifica se compatibile col tuo codice)
-Flask-Cors==3.0.10     # Presa da backend_render (verifica)
-Werkzeug==2.2.3        # Presa da backend_render (verifica)
-gunicorn               # Necessario per Render Start Command
+Flask==2.2.5
+Flask-Cors==3.0.10
+Werkzeug==2.2.3
+gunicorn
 
 # AI & Processing Libraries
-# Usiamo i link specifici per CPU da backend_render - buoni per Render
-https://download.pytorch.org/whl/cpu/torch-2.2.2%2Bcpu-cp311-cp311-linux_x86_64.whl
-https://download.pytorch.org/whl/cpu/torchvision-0.17.2%2Bcpu-cp311-cp311-linux_x86_64.whl
-transformers==4.36.2     # Presa da backend_render (più recente)
-git+https://github.com/openai/CLIP.git # Presa da entrambi
+# ===> ASSICURATI CHE LE RIGHE SEGUENTI SIANO ELIMINATE O COMMENTATE <===
+# https://download.pytorch.org/whl/cpu/torch-2.2.2%2Bcpu-cp311-cp311-linux_x86_64.whl
+# https://download.pytorch.org/whl/cpu/torchvision-0.17.2%2Bcpu-cp311-cp311-linux_x86_64.whl
+# ===> FINE BLOCCO DA RIMUOVERE <===
+transformers==4.36.2
+git+https://github.com/openai/CLIP.git
 
 # Video/Image Processing
-moviepy==1.0.3         # Uguale in entrambi
-opencv-python==4.6.0.66 # Presa da backend_render (verifica compatibilità)
-scenedetect==0.6.1       # Versione pinnata da backend_render
-Pillow==10.0.1         # Presa da root (verifica se necessaria) - OpenCV spesso basta
+moviepy==1.0.3
+opencv-python==4.6.0.66
+scenedetect==0.6.1
+Pillow==10.0.1
 
 # Utilities & Data Handling
-numpy==1.23.5          # Presa da backend_render (verifica compatibilità)
-requests==2.28.2         # Aggiunta da backend_render (verifica se usata!)
-python-dotenv==1.0.0   # Presa da root (utile per variabili locali .env)
-pydantic==2.4.2        # Presa da root (verifica se usata!)
-ftfy==6.1.1            # Presa da root (spesso usata con CLIP, prob. necessaria)
-regex==2023.8.8        # Presa da root (spesso usata con CLIP, prob. necessaria)
-tqdm==4.66.1           # Presa da root (utile per progress bar)
+numpy==1.23.5
+requests==2.28.2
+python-dotenv==1.0.0
+pydantic==2.4.2
+ftfy==6.1.1
+regex==2023.8.8
+tqdm==4.66.1
+
+# Nota: PyTorch/Torchvision per GPU verranno installati separatamente
+# o si assumerà che siano nell'immagine base Nvidia
